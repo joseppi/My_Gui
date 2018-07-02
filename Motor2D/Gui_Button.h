@@ -3,7 +3,7 @@
 class Button : public Gui_Elements
 {
 public:
-	Button() {};
+
 	Button(int x, int y, SDL_Rect section, SDL_Texture* texture) : Gui_Elements(x, y, section, texture)
 	{}
 

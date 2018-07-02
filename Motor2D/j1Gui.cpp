@@ -10,6 +10,7 @@
 #include "j1Scene.h"
 #include "p2Animation.h"
 #include "Gui_Button.h"
+
 j1Gui::j1Gui() : j1Module()
 {
 	name.create("gui");
@@ -25,7 +26,7 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 	LOG("Loading GUI atlas");
 	bool ret = true;
 
-	//atlas_file_name = conf.child("atlas").attribute("file").as_string("");
+	atlas_file_name = conf.child("atlas").attribute("file").as_string("");
 
 	return ret;
 }
@@ -35,6 +36,7 @@ bool j1Gui::Start()
 {
 	
 	//atlas = App->tex->Load(atlas_file_name.GetString());
+	atlas = App->tex->Load("gui/ui_big_pieces.png");
 	buttons = App->tex->Load("gui/Button.png");
 	windows = App->tex->Load("gui/Windows2.png");
 	logo = App->tex->Load("gui/logo.png");
@@ -57,11 +59,17 @@ bool j1Gui::Start()
 }
 
 // Update all guis
-bool j1Gui::PreUpdate()
+bool j1Gui::PreUpdate(float dt)
 {
+
 	return true;
 }
 
+bool j1Gui::Update(float dt)
+{
+	BlitElements();
+	return true;
+}
 // Called after all Updates
 bool j1Gui::PostUpdate()
 {
@@ -87,6 +95,16 @@ const SDL_Texture* j1Gui::GetWindows() const
 const SDL_Texture* j1Gui::GetButtons() const
 {
 	return buttons;
+}
+
+void j1Gui::BlitElements()
+{
+	SDL_Rect iterator_rect;
+	for (std::list<Gui_Elements*>::iterator it_e = element_list.begin(); it_e != element_list.end(); it_e++)
+	{
+		iterator_rect = { (*it_e)->section.x, (*it_e)->section.y, (*it_e)->section.h, (*it_e)->section.w};
+		App->render->Blit((*it_e)->texture, (*it_e)->Position.x, (*it_e)->Position.y, &iterator_rect);
+	}
 }
 
 // class Gui ---------------------------------------------------
@@ -132,10 +150,12 @@ void j1Gui::AddButton(float posx, float posy, SDL_Rect* type, const char* string
 
 }
 
-Button* CreateButton(int x, int y)
+Button * j1Gui::CreateButton(int x, int y, SDL_Rect section, SDL_Texture* texture)
 {
-	SDL_Texture* texture = nullptr;
-	Button* ret = new Button(x, y, { 0,0,0,0 }, texture);
+
+	Button* ret = new Button(x, y, section, texture);
+	element_list.push_back(ret);
+	
 	return ret;
 }
 

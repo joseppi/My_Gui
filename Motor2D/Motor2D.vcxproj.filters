@@ -176,5 +176,13 @@
     <Filter Include="Desenvolupament  ========\Modules\Gui">
       <UniqueIdentifier>{6f8b87cf-70d6-46b6-ad84-952729aeb72e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\Files">
+      <UniqueIdentifier>{6cd27e9b-72e7-4817-8223-63361be55617}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\Game\config.xml">
+      <Filter>Desenvolupament  ========\Modules\Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
