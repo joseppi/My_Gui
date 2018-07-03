@@ -11,7 +11,7 @@
   </renderer>
 
   <window>
-    <resolution width="1024" height="768" scale=""/>
+    <resolution width="1920" height="1080" scale=""/>
     <fullscreen value="false"/>
     <borderless value="false"/>
     <resizable value="false"/>
@@ -19,7 +19,7 @@
   </window>
 
   <gui>
-    <atlas file="gui/ui_big_pieces.png"/>
+    <atlas file="gui/atlas.png"/>
   </gui>
 
   <map>

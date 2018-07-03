@@ -13,6 +13,7 @@ struct SDL_Texture;
 struct SDL_Rect;
 class Gui_Elements;
 class Button;
+class Image;
 // ---------------------------------------------------
 class j1Gui : public j1Module
 {
@@ -48,7 +49,7 @@ public:
 
 	void BlitElements();
 	void AddButton(float posx, float posy, SDL_Rect* name = {}, const char* string = nullptr, int tab = -1, float scale = 0.5f );
-	Button* CreateButton(int x, int y, SDL_Rect section, SDL_Texture* texture = nullptr);
+	Image* AddImage(int x, int y, SDL_Rect section, SDL_Texture* texture = nullptr);
 	void AddFloatingScore(float posx, float posy, SDL_Rect* type, const char* string, float scale = 0.5f);
 
 private:

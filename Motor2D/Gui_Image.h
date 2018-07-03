@@ -1,8 +1,12 @@
 #pragma once
-class Gui_Image
+#include "Gui_Elements.h"
+class Image : public Gui_Elements
 {
 public:
-	Gui_Image();
-	~Gui_Image();
+
+	Image(int x, int y, SDL_Rect section, SDL_Texture* texture) : Gui_Elements(x, y, section, texture)
+	{}
+	~Image()
+	{}
 };
 

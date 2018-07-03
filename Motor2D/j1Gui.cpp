@@ -10,6 +10,7 @@
 #include "j1Scene.h"
 #include "p2Animation.h"
 #include "Gui_Button.h"
+#include "Gui_Image.h"
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -35,8 +36,8 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 bool j1Gui::Start()
 {
 	
-	//atlas = App->tex->Load(atlas_file_name.GetString());
-	atlas = App->tex->Load("gui/ui_big_pieces.png");
+	atlas = App->tex->Load(atlas_file_name.GetString());
+	//atlas = App->tex->Load("gui/ui_big_pieces.png");
 	buttons = App->tex->Load("gui/Button.png");
 	windows = App->tex->Load("gui/Windows2.png");
 	logo = App->tex->Load("gui/logo.png");
@@ -150,10 +151,10 @@ void j1Gui::AddButton(float posx, float posy, SDL_Rect* type, const char* string
 
 }
 
-Button * j1Gui::CreateButton(int x, int y, SDL_Rect section, SDL_Texture* texture)
+Image * j1Gui::AddImage(int x, int y, SDL_Rect section, SDL_Texture* texture)
 {
 
-	Button* ret = new Button(x, y, section, texture);
+	Image* ret = new Image(x, y, section, texture);
 	element_list.push_back(ret);
 	
 	return ret;
