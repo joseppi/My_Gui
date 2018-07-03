@@ -4,7 +4,7 @@ class Button : public Gui_Elements
 {
 public:
 
-	Button(int x, int y, SDL_Rect section, SDL_Texture* texture) : Gui_Elements(x, y, section, texture)
+	Button(ElementName name, int x, int y, SDL_Rect section, SDL_Texture* texture) : Gui_Elements(name, x, y, section, texture)
 	{}
 
 	~Button();

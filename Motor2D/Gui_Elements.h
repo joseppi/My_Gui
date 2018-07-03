@@ -7,12 +7,12 @@
 #include "j1Gui_Scene.h"
 
 class SDL_Texture;
-
 class Gui_Elements  
 {
 public:
-	Gui_Elements(int x, int y, const SDL_Rect section, SDL_Texture* texture) :
-		Position({ x, y }),
+	Gui_Elements(ElementName name, int x, int y, const SDL_Rect section, SDL_Texture* texture) :
+		name(name),
+		position({ x, y }),
 		section(section),
 		texture(texture)
 	{}
@@ -20,10 +20,12 @@ public:
 
 
 public:
-	iPoint Position = { 0, 0 };
+	iPoint position = { 0, 0 };
 	SDL_Rect section = { 0, 0, 100, 100 };
 	SDL_Texture* texture = App->gui->atlas;
+	ElementName name;
 
 };
+
 #endif
 

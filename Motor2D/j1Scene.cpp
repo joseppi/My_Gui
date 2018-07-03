@@ -151,11 +151,11 @@ bool j1Scene::Update(float dt)
 	
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 	{
-		App->gui->AddFloatingScore(1.05, 0.3, {}, display_floating_score.GetString());
+
 	}
 	if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN)
 	{
-		tabstate++;
+
 	}
 
 	//posar que faci alguna cosa quant pases el ratolí per sobre

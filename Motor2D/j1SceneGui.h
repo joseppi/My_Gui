@@ -6,6 +6,7 @@
 struct SDL_Texture;
 class GuiImage;
 class GuiText;
+class GuiElements;
 struct _TTF_Font;
 
 class j1SceneGui : public j1Module
@@ -36,18 +37,18 @@ public:
 	bool CleanUp();
 
 private:
-	SDL_Texture*		debug_tex;
-	GuiImage*			banner;
-	GuiText*			text;
+	SDL_Texture*			debug_tex;
+	GuiImage*				banner;
+	GuiText*				text;
+
+	pugi::xml_node			guiconfig;
+	pugi::xml_document		Gui_config_file;
+
 private:
-	_TTF_Font*			Font;
+	_TTF_Font*				Font;
 
-public:
-	int					score;
-	p2SString			display_score;
 
-	p2SString			display_floating_score;
-	int					tabstate = 0;
+
 
 
 

@@ -184,5 +184,8 @@
     <Xml Include="..\Game\config.xml">
       <Filter>Desenvolupament  ========\Modules\Files</Filter>
     </Xml>
+    <Xml Include="..\Game\gui_config.xml">
+      <Filter>Desenvolupament  ========\Modules\Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

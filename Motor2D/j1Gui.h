@@ -4,6 +4,7 @@
 #include "j1Module.h"
 #include <list>
 #include "SDL_ttf\include\SDL_ttf.h"
+#include "PugiXml\src\pugixml.hpp"
 
 
 #define CURSOR_WIDTH 2
@@ -14,6 +15,12 @@ struct SDL_Rect;
 class Gui_Elements;
 class Button;
 class Image;
+enum ElementName
+{
+	ATLAS,
+	STARTGAME,
+	OPTIONS
+};
 // ---------------------------------------------------
 class j1Gui : public j1Module
 {
@@ -48,9 +55,10 @@ public:
 	const SDL_Texture* GetButtons() const;
 
 	void BlitElements();
-	void AddButton(float posx, float posy, SDL_Rect* name = {}, const char* string = nullptr, int tab = -1, float scale = 0.5f );
-	Image* AddImage(int x, int y, SDL_Rect section, SDL_Texture* texture = nullptr);
-	void AddFloatingScore(float posx, float posy, SDL_Rect* type, const char* string, float scale = 0.5f);
+	Image* AddImage(ElementName name, int x, int y, SDL_Rect section, SDL_Texture* texture = nullptr);
+
+	Button * AddButton(ElementName name, int x, int y, SDL_Rect section, SDL_Texture * texture);
+	
 
 private:
 

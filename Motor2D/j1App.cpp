@@ -180,6 +180,17 @@ pugi::xml_node j1App::LoadConfig(pugi::xml_document& config_file) const
 	return ret;
 }
 
+pugi::xml_node j1App::LoadFile(pugi::xml_document& doc, char* file) const
+{
+	pugi::xml_node ret;
+	pugi::xml_parse_result result = doc.load_file(file);
+
+	if (result)	ret = doc.first_child();
+	else		LOG("Could not load map xml file config.xml. pugi error: %s", result.description());
+
+	return ret;
+}
+
 // ---------------------------------------------
 void j1App::PrepareUpdate()
 {
