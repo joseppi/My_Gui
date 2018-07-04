@@ -48,13 +48,25 @@ bool j1SceneGui::Start()
 	int posy = guiconfig.child("StartGame").child("position").attribute("y").as_int(0);
 
 	//Image* atlas;
-	//
 	//atlas = App->gui->AddImage(ATLAS, 0, 0, { 0, 0, 600, 600 }, App->gui->atlas);
-
-	Button* StartGame;
-
-	StartGame = App->gui->AddButton(STARTGAME, posx, posy, { x,y,h,w }, App->gui->atlas);
 	
+	Button* StartGame;
+	StartGame = App->gui->AddButton(STARTGAME, posx, posy, { x,y,w,h },true,this, App->gui->atlas);
+
+	int x1 = guiconfig.child("Options").child("rect").attribute("x").as_int(0);
+	int y1 = guiconfig.child("Options").child("rect").attribute("y").as_int(0);
+	int h1 = guiconfig.child("Options").child("rect").attribute("h").as_int(0);
+	int w1 = guiconfig.child("Options").child("rect").attribute("w").as_int(0);
+
+	int posx1 = guiconfig.child("Options").child("position").attribute("x").as_int(0);
+	int posy1 = guiconfig.child("Options").child("position").attribute("y").as_int(0);
+
+	Button* Options;
+	Options = App->gui->AddButton(OPTIONS, posx1, posy1, { x1,y1,w1,h1 }, true, this, App->gui->atlas);
+	
+
+
+
 	return true;
 }
 
@@ -63,12 +75,29 @@ bool j1SceneGui::PreUpdate()
 	return true;
 }
 
-
 bool j1SceneGui::Update(float dt)
 {
+	p2SString mouse_x_display;
+	p2SString mouse_y_display;
 
-	
-	
+	int mouse_x;
+	int mouse_y;
+
+	App->input->GetMousePosition(mouse_x, mouse_y);
+
+
+	mouse_x_display.create("%i", mouse_x);
+	SDL_Texture* img = App->font->Print(mouse_x_display.GetString(), { 255,255,255,255 }, App->gui->font24);
+	App->render->Blit(img, 500,500);
+	SDL_DestroyTexture(img);
+
+
+	mouse_y_display.create("%i", mouse_y);
+	SDL_Texture* img2 = App->font->Print(mouse_y_display.GetString(), { 255,255,255,255 }, App->gui->font24);
+	App->render->Blit(img, 700, 500);
+	SDL_DestroyTexture(img);
+
+
 
 	return true;
 }
@@ -97,4 +126,10 @@ bool j1SceneGui::CleanUp()
 		}
 	}
 	return true;
+}
+
+void j1SceneGui::ActionController()
+{
+	
+	LOG("hola");
 }

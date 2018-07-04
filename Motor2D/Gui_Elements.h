@@ -10,11 +10,13 @@ class SDL_Texture;
 class Gui_Elements  
 {
 public:
-	Gui_Elements(ElementName name, int x, int y, const SDL_Rect section, SDL_Texture* texture) :
+	Gui_Elements(ElementName name, int x, int y, const SDL_Rect section, bool active, j1Module* callback, SDL_Texture* texture) :
 		name(name),
 		position({ x, y }),
 		section(section),
-		texture(texture)
+		texture(texture),
+		callback(callback),
+		active(active)
 	{}
 	~Gui_Elements() {};
 
@@ -24,6 +26,8 @@ public:
 	SDL_Rect section = { 0, 0, 100, 100 };
 	SDL_Texture* texture = App->gui->atlas;
 	ElementName name;
+	j1Module* callback;
+	bool active;
 
 };
 

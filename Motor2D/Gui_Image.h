@@ -4,7 +4,7 @@ class Image : public Gui_Elements
 {
 public:
 
-	Image(ElementName name, int x, int y, SDL_Rect section, SDL_Texture* texture) : Gui_Elements(name, x, y, section, texture)
+	Image(ElementName name, int x, int y, SDL_Rect section, bool active, j1Module* callback, SDL_Texture* texture) : Gui_Elements(name, x, y, section, active, callback, texture)
 	{}
 	~Image()
 	{}

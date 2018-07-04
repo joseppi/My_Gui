@@ -55,9 +55,8 @@ public:
 	const SDL_Texture* GetButtons() const;
 
 	void BlitElements();
-	Image* AddImage(ElementName name, int x, int y, SDL_Rect section, SDL_Texture* texture = nullptr);
-
-	Button * AddButton(ElementName name, int x, int y, SDL_Rect section, SDL_Texture * texture);
+	Image* AddImage(ElementName name, int x, int y, SDL_Rect section, bool active, j1Module* callback, SDL_Texture* texture = nullptr);
+	Button* AddButton(ElementName name, int x, int y, SDL_Rect section, bool active, j1Module* callback, SDL_Texture * texture = nullptr);
 	
 
 private:
@@ -70,22 +69,9 @@ public:
 	SDL_Texture *				atlas;
 	std::list<Gui_Elements*>	element_list;
 	std::list<SDL_Rect*>		rect_list;
-	SDL_Rect					home_window;
-	SDL_Rect					button_play;
-	SDL_Rect					button_options;
-	SDL_Rect					button_exit;
-	SDL_Rect					rec_logo;
-
-	SDL_Texture*				logo;
 
 	_TTF_Font*					font12;
 	_TTF_Font*					font24;
-
-	int							score;
-	p2SString					display_score;
-
-
-	p2SString					display_floating_score;
 
 	Button*						buttons_class;
 	

@@ -72,6 +72,10 @@ public:
 		return true;
 	}
 
+	virtual void ActionController()
+	{
+		
+	}
 public:
 
 	p2SString	name;

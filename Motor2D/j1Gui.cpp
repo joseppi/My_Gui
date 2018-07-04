@@ -11,7 +11,6 @@
 #include "p2Animation.h"
 #include "Gui_Button.h"
 #include "Gui_Image.h"
-
 j1Gui::j1Gui() : j1Module()
 {
 	name.create("gui");
@@ -84,26 +83,45 @@ const SDL_Texture* j1Gui::GetButtons() const
 
 void j1Gui::BlitElements()
 {
+	int mouse_x = 0;
+	int mouse_y = 0;
+	App->input->GetMousePosition(mouse_x, mouse_y);
 	for (std::list<Gui_Elements*>::iterator it_e = element_list.begin(); it_e != element_list.end(); it_e++)
 	{
-		SDL_Rect iterator_rect = { (*it_e)->section.x, (*it_e)->section.y, (*it_e)->section.h, (*it_e)->section.w};
-		App->render->Blit((*it_e)->texture, (*it_e)->position.x, (*it_e)->position.y, &iterator_rect);
+		if ((*it_e)->active == true)
+		{
+			if (mouse_x >= (*it_e)->position.x && 
+				mouse_y >= (*it_e)->position.y && 
+				mouse_x <= ((*it_e)->position.x + (*it_e)->section.w) &&
+				mouse_y <= ((*it_e)->position.y + (*it_e)->section.h) &&
+				App->input->GetMouseButtonDown(KEY_DOWN))
+			{
+				(*it_e)->active = false;
+			}
+
+			SDL_Rect iterator_rect = (*it_e)->section;
+			App->render->Blit((*it_e)->texture, (*it_e)->position.x, (*it_e)->position.y, &iterator_rect);
+			(*it_e)->callback->ActionController();
+		}
+
+
+		
 	}
 }
 
 // class Gui ---------------------------------------------------
 
-Image * j1Gui::AddImage(ElementName name, int x, int y, SDL_Rect section, SDL_Texture* texture)
+Image * j1Gui::AddImage(ElementName name, int x, int y, SDL_Rect section,bool active, j1Module* callback, SDL_Texture* texture)
 {
-	Image* ret = new Image(name, x, y, section, texture);
+	Image* ret = new Image(name, x, y, section, active, callback, texture);
 	element_list.push_back(ret);
 	
 	return ret;
 }
 
-Button * j1Gui::AddButton(ElementName name, int x, int y, SDL_Rect section, SDL_Texture* texture)
+Button * j1Gui::AddButton(ElementName name, int x, int y, SDL_Rect section,bool active, j1Module* callback, SDL_Texture* texture)
 {
-	Button* ret = new Button(name, x, y, section, texture);
+	Button* ret = new Button(name, x, y, section, active, callback, texture);
 	element_list.push_back(ret);
 
 	return ret;
