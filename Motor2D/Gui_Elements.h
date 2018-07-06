@@ -4,7 +4,7 @@
 #include "p2Point.h"
 #include "j1App.h"
 #include "j1Textures.h"
-#include "j1Gui_Scene.h"
+#include "j1SceneGui.h"
 
 class SDL_Texture;
 class Gui_Elements  

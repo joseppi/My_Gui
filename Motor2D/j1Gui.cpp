@@ -11,6 +11,9 @@
 #include "p2Animation.h"
 #include "Gui_Button.h"
 #include "Gui_Image.h"
+#include "j1SceneGui.h"
+
+
 j1Gui::j1Gui() : j1Module()
 {
 	name.create("gui");
@@ -97,32 +100,55 @@ void j1Gui::BlitElements()
 				App->input->GetMouseButtonDown(KEY_DOWN))
 			{
 				(*it_e)->active = false;
-			}
 
+			}
 			SDL_Rect iterator_rect = (*it_e)->section;
 			App->render->Blit((*it_e)->texture, (*it_e)->position.x, (*it_e)->position.y, &iterator_rect);
 			(*it_e)->callback->ActionController();
+			
+
+
 		}
 
 
 		
 	}
+	
 }
 
 // class Gui ---------------------------------------------------
 
-Image * j1Gui::AddImage(ElementName name, int x, int y, SDL_Rect section,bool active, j1Module* callback, SDL_Texture* texture)
+Image * j1Gui::AddImage(pugi::xml_node& node, ElementName name, int x, int y, SDL_Rect rect,bool active, j1Module* callback, SDL_Texture* texture)
 {
-	Image* ret = new Image(name, x, y, section, active, callback, texture);
+	node.append_child("ATLAS").append_child("rect").append_attribute("x") = rect.x;
+	node.append_child("ATLAS").append_child("rect").append_attribute("y") = rect.y;
+	node.append_child("ATLAS").append_child("rect").append_attribute("h") = rect.h;
+	node.append_child("ATLAS").append_child("rect").append_attribute("w") = rect.w;
+
+	//ElenemtNametoString(name)
+	SDL_Texture* img3 = App->font->Print("hola", { 255,255,255,255 }, App->gui->font24);
+	App->render->Blit(img3, 100, 100);
+
+	Image* ret = new Image(name, x, y, rect, active, callback, texture);
 	element_list.push_back(ret);
-	
+
 	return ret;
 }
 
-Button * j1Gui::AddButton(ElementName name, int x, int y, SDL_Rect section,bool active, j1Module* callback, SDL_Texture* texture)
+Button * j1Gui::AddButton(ElementName name, int x, int y, SDL_Rect rect,bool active, j1Module* callback, SDL_Texture* texture)
 {
-	Button* ret = new Button(name, x, y, section, active, callback, texture);
+	Button* ret = new Button(name, x, y, rect, active, callback, texture);
 	element_list.push_back(ret);
 
 	return ret;
+}
+
+const char* j1Gui::ElenemtNametoString(ElementName name)
+{
+	switch (name)
+	{
+		case ATLAS:		return "ATLAS";
+		case STARTGAME: return "STARTGAME";
+		case OPTIONS:	return "OPTIONS";
+	}
 }

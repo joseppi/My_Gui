@@ -35,35 +35,47 @@ bool j1SceneGui::Awake()
 
 bool j1SceneGui::Start()
 {
-	pugi::xml_parse_result	result = Gui_config_file.load_file("gui_config.xml");
-	guiconfig = Gui_config_file.first_child();
+	result = gui_config_file.load_file("gui_config.xml");
+	gui_config_node = gui_config_file.first_child();
 
 	
-	int x = guiconfig.child("StartGame").child("rect").attribute("x").as_int(0);
-	int y = guiconfig.child("StartGame").child("rect").attribute("y").as_int(0);
-	int h = guiconfig.child("StartGame").child("rect").attribute("h").as_int(0);
-	int w = guiconfig.child("StartGame").child("rect").attribute("w").as_int(0);
+	int x = gui_config_node.child("StartGame").child("rect").attribute("x").as_int(0);
+	int y = gui_config_node.child("StartGame").child("rect").attribute("y").as_int(0);
+	int h = gui_config_node.child("StartGame").child("rect").attribute("h").as_int(0);
+	int w = gui_config_node.child("StartGame").child("rect").attribute("w").as_int(0);
 
-	int posx = guiconfig.child("StartGame").child("position").attribute("x").as_int(0);
-	int posy = guiconfig.child("StartGame").child("position").attribute("y").as_int(0);
+	int posx = gui_config_node.child("StartGame").child("position").attribute("x").as_int(0);
+	int posy = gui_config_node.child("StartGame").child("position").attribute("y").as_int(0);
 
+	//int posz = gui_config_node.child("StartGame").child("position").attribute("y").set_value;
+
+	
 	//Image* atlas;
 	//atlas = App->gui->AddImage(ATLAS, 0, 0, { 0, 0, 600, 600 }, App->gui->atlas);
 	
 	Button* StartGame;
 	StartGame = App->gui->AddButton(STARTGAME, posx, posy, { x,y,w,h },true,this, App->gui->atlas);
 
-	int x1 = guiconfig.child("Options").child("rect").attribute("x").as_int(0);
-	int y1 = guiconfig.child("Options").child("rect").attribute("y").as_int(0);
-	int h1 = guiconfig.child("Options").child("rect").attribute("h").as_int(0);
-	int w1 = guiconfig.child("Options").child("rect").attribute("w").as_int(0);
+	int x1 = gui_config_node.child("Options").child("rect").attribute("x").as_int(0);
+	int y1 = gui_config_node.child("Options").child("rect").attribute("y").as_int(0);
+	int h1 = gui_config_node.child("Options").child("rect").attribute("h").as_int(0);
+	int w1 = gui_config_node.child("Options").child("rect").attribute("w").as_int(0);
 
-	int posx1 = guiconfig.child("Options").child("position").attribute("x").as_int(0);
-	int posy1 = guiconfig.child("Options").child("position").attribute("y").as_int(0);
+	int posx1 = gui_config_node.child("Options").child("position").attribute("x").as_int(0);
+	int posy1 = gui_config_node.child("Options").child("position").attribute("y").as_int(0);
 
 	Button* Options;
 	Options = App->gui->AddButton(OPTIONS, posx1, posy1, { x1,y1,w1,h1 }, true, this, App->gui->atlas);
+
+
+
+	Image* Atlas;
+	Atlas = App->gui->AddImage(gui_config_node, ATLAS, 0, 0, { 0,0,1000,1000 }, true, this, App->gui->atlas);
 	
+	gui_config_node.append_child("ATLAS").append_child("rect").append_attribute("x") = 0;
+	gui_config_node.append_child("ATLAS").append_child("rect").append_attribute("y") = 0;
+	gui_config_node.append_child("ATLAS").append_child("rect").append_attribute("h") = 1000;
+	gui_config_node.append_child("ATLAS").append_child("rect").append_attribute("w") = 1000;
 
 
 
@@ -115,13 +127,13 @@ bool j1SceneGui::CleanUp()
 	{
 		if ((*it_e)->name = STARTGAME)
 		{
-			guiconfig.child("StartGame").child("rect").attribute("x").set_value((*it_e)->section.x);
-			guiconfig.child("StartGame").child("rect").attribute("y").set_value((*it_e)->section.y);
-			guiconfig.child("StartGame").child("rect").attribute("h").set_value((*it_e)->section.h);
-			guiconfig.child("StartGame").child("rect").attribute("w").set_value((*it_e)->section.w);
+			gui_config_node.child("StartGame").child("rect").attribute("x").set_value((*it_e)->section.x);
+			gui_config_node.child("StartGame").child("rect").attribute("y").set_value((*it_e)->section.y);
+			gui_config_node.child("StartGame").child("rect").attribute("h").set_value((*it_e)->section.h);
+			gui_config_node.child("StartGame").child("rect").attribute("w").set_value((*it_e)->section.w);
 
-			guiconfig.child("StartGame").child("position").attribute("x").set_value((*it_e)->position.x);
-			guiconfig.child("StartGame").child("position").attribute("y").set_value((*it_e)->position.y);
+			gui_config_node.child("StartGame").child("position").attribute("x").set_value((*it_e)->position.x);
+			gui_config_node.child("StartGame").child("position").attribute("y").set_value((*it_e)->position.y);
 
 		}
 	}

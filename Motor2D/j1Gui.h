@@ -55,8 +55,11 @@ public:
 	const SDL_Texture* GetButtons() const;
 
 	void BlitElements();
-	Image* AddImage(ElementName name, int x, int y, SDL_Rect section, bool active, j1Module* callback, SDL_Texture* texture = nullptr);
+	
+	Image * AddImage(pugi::xml_node& node, ElementName name, int x, int y, SDL_Rect rect, bool active, j1Module * callback, SDL_Texture * texture);
 	Button* AddButton(ElementName name, int x, int y, SDL_Rect section, bool active, j1Module* callback, SDL_Texture * texture = nullptr);
+	
+	const char* ElenemtNametoString(ElementName name);
 	
 
 private:

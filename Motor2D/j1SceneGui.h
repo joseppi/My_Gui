@@ -43,12 +43,13 @@ private:
 	GuiImage*				banner;
 	GuiText*				text;
 
-	pugi::xml_node			guiconfig;
-	pugi::xml_document		Gui_config_file;
-
 private:
 	_TTF_Font*				Font;
 
+public:
+	pugi::xml_node			gui_config_node;
+	pugi::xml_document		gui_config_file;
+	pugi::xml_parse_result	result;
 
 
 
