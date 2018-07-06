@@ -384,6 +384,7 @@ bool j1App::LoadGameNow()
 	pugi::xml_document data;
 	pugi::xml_node root;
 
+	data.load_file("save_game.xml");
 	pugi::xml_parse_result result = data.load_file(load_game.GetString());
 
 	if(result != NULL)
@@ -424,6 +425,7 @@ bool j1App::SavegameNow() const
 	pugi::xml_document data;
 	pugi::xml_node root;
 	
+	data.load_file("save_game.xml");
 	root = data.append_child("game_state");
 
 	p2List_item<j1Module*>* item = modules.start;

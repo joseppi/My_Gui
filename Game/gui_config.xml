@@ -1,12 +1,15 @@
-<!--Gui  Config file for the game -->
-
+<?xml version="1.0"?>
 <config>
-  <StartGame>
-    <rect x="0" y="0" w="192" h="56"/>
-    <position x="1000" y="500"/>
-  </StartGame>
-  <Options>
-    <rect x="0" y="0" w="192" h="56"/>
-    <position x="1000" y="700"/>
-  </Options>
-</config> 
+	<STARTGAME>
+		<rect x="0" y="0" h="56" w="192" />
+		<position x="1600" y="500" />
+	</STARTGAME>
+	<OPTIONS>
+		<rect x="0" y="0" h="56" w="192" />
+		<position x="1000" y="700" />
+	</OPTIONS>
+	<ATLAS>
+		<rect x="0" y="0" h="1000" w="1000" />
+		<position x="0" y="0" />
+	</ATLAS>
+</config>

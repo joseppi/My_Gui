@@ -37,48 +37,23 @@ bool j1SceneGui::Start()
 {
 	result = gui_config_file.load_file("gui_config.xml");
 	gui_config_node = gui_config_file.first_child();
-
 	
-	int x = gui_config_node.child("StartGame").child("rect").attribute("x").as_int(0);
-	int y = gui_config_node.child("StartGame").child("rect").attribute("y").as_int(0);
-	int h = gui_config_node.child("StartGame").child("rect").attribute("h").as_int(0);
-	int w = gui_config_node.child("StartGame").child("rect").attribute("w").as_int(0);
-
 	int posx = gui_config_node.child("StartGame").child("position").attribute("x").as_int(0);
 	int posy = gui_config_node.child("StartGame").child("position").attribute("y").as_int(0);
-
-	//int posz = gui_config_node.child("StartGame").child("position").attribute("y").set_value;
-
-	
-	//Image* atlas;
-	//atlas = App->gui->AddImage(ATLAS, 0, 0, { 0, 0, 600, 600 }, App->gui->atlas);
 	
 	Button* StartGame;
-	StartGame = App->gui->AddButton(STARTGAME, posx, posy, { x,y,w,h },true,this, App->gui->atlas);
-
-	int x1 = gui_config_node.child("Options").child("rect").attribute("x").as_int(0);
-	int y1 = gui_config_node.child("Options").child("rect").attribute("y").as_int(0);
-	int h1 = gui_config_node.child("Options").child("rect").attribute("h").as_int(0);
-	int w1 = gui_config_node.child("Options").child("rect").attribute("w").as_int(0);
+	StartGame = App->gui->AddButton(STARTGAME, 1100, 500, { 0,0,192,56 },true,"Start Game");
 
 	int posx1 = gui_config_node.child("Options").child("position").attribute("x").as_int(0);
 	int posy1 = gui_config_node.child("Options").child("position").attribute("y").as_int(0);
 
 	Button* Options;
-	Options = App->gui->AddButton(OPTIONS, posx1, posy1, { x1,y1,w1,h1 }, true, this, App->gui->atlas);
-
-
+	Options = App->gui->AddButton(OPTIONS, 400, 700, { 0,0,192,56 }, true, "Options");
 
 	Image* Atlas;
-	Atlas = App->gui->AddImage(gui_config_node, ATLAS, 0, 0, { 0,0,1000,1000 }, true, this, App->gui->atlas);
+	Atlas = App->gui->AddImage(ATLAS, 0, 0, { 0,0,1000,1000 }, true, this);
 	
-	gui_config_node.append_child("ATLAS").append_child("rect").append_attribute("x") = 0;
-	gui_config_node.append_child("ATLAS").append_child("rect").append_attribute("y") = 0;
-	gui_config_node.append_child("ATLAS").append_child("rect").append_attribute("h") = 1000;
-	gui_config_node.append_child("ATLAS").append_child("rect").append_attribute("w") = 1000;
-
-
-
+	App->scene_gui->gui_config_file.save_file("gui_config.xml");
 	return true;
 }
 
@@ -99,13 +74,13 @@ bool j1SceneGui::Update(float dt)
 
 
 	mouse_x_display.create("%i", mouse_x);
-	SDL_Texture* img = App->font->Print(mouse_x_display.GetString(), { 255,255,255,255 }, App->gui->font24);
+	SDL_Texture* img = App->font->Print(mouse_x_display.GetString(), { 255,255,255,255 }, App->gui->font64);
 	App->render->Blit(img, 500,500);
 	SDL_DestroyTexture(img);
 
 
 	mouse_y_display.create("%i", mouse_y);
-	SDL_Texture* img2 = App->font->Print(mouse_y_display.GetString(), { 255,255,255,255 }, App->gui->font24);
+	SDL_Texture* img2 = App->font->Print(mouse_y_display.GetString(), { 255,255,255,255 }, App->gui->font64);
 	App->render->Blit(img, 700, 500);
 	SDL_DestroyTexture(img);
 

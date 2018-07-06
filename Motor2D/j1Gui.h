@@ -5,6 +5,7 @@
 #include <list>
 #include "SDL_ttf\include\SDL_ttf.h"
 #include "PugiXml\src\pugixml.hpp"
+#include "j1SceneGui.h"
 
 
 #define CURSOR_WIDTH 2
@@ -56,10 +57,10 @@ public:
 
 	void BlitElements();
 	
-	Image * AddImage(pugi::xml_node& node, ElementName name, int x, int y, SDL_Rect rect, bool active, j1Module * callback, SDL_Texture * texture);
-	Button* AddButton(ElementName name, int x, int y, SDL_Rect section, bool active, j1Module* callback, SDL_Texture * texture = nullptr);
+	Image * AddImage(ElementName name, int x, int y, SDL_Rect rect, bool active, j1Module * callback = nullptr, SDL_Texture * texture = nullptr);
+	Button* AddButton(ElementName name, int x, int y, SDL_Rect section, bool active, const char* display_string = NULL, j1Module* callback = nullptr,  SDL_Texture * texture = nullptr);
 	
-	const char* ElenemtNametoString(ElementName name);
+	const char* ElementNametoString(ElementName name);
 	
 
 private:
@@ -71,10 +72,12 @@ private:
 public:
 	SDL_Texture *				atlas;
 	std::list<Gui_Elements*>	element_list;
+	std::list<Button*>			button_list;
+	std::list<Image*>			image_list;
 	std::list<SDL_Rect*>		rect_list;
 
-	_TTF_Font*					font12;
 	_TTF_Font*					font24;
+	_TTF_Font*					font64;
 
 	Button*						buttons_class;
 	
