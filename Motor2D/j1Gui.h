@@ -81,6 +81,8 @@ public:
 
 	Button*						buttons_class;
 	
+	int total_motion_x = 0;
+	int total_motion_y = 0;
 
 };
 

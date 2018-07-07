@@ -69,7 +69,9 @@ bool j1Gui::CleanUp()
 {
 	LOG("Freeing GUI");
 	App->font->CleanUp();
+	App->scene_gui->gui_config_file.save_file("gui_config.xml");
 
+	
 	return true;
 }
 
@@ -89,29 +91,49 @@ void j1Gui::BlitElements()
 	int mouse_x = 0;
 	int mouse_y = 0;
 	App->input->GetMousePosition(mouse_x, mouse_y);
-	for (std::list<Button*>::iterator it_e = button_list.begin(); it_e != button_list.end(); it_e++)
+
+	for (std::list<Gui_Elements*>::iterator it = element_list.begin(); it != element_list.end(); it++)
 	{
-		if ((*it_e)->active == true)
+		if (mouse_x >= (*it)->position.x &&
+			mouse_y >= (*it)->position.y &&
+			mouse_x <= ((*it)->position.x + (*it)->section.w) &&
+			mouse_y <= ((*it)->position.y + (*it)->section.h))
 		{
-			if (mouse_x >= (*it_e)->position.x && 
-				mouse_y >= (*it_e)->position.y && 
-				mouse_x <= ((*it_e)->position.x + (*it_e)->section.w) &&
-				mouse_y <= ((*it_e)->position.y + (*it_e)->section.h) &&
-				App->input->GetMouseButtonDown(KEY_DOWN))
+			if (App->input->GetMouseButtonDown(1) == KEY_REPEAT)
 			{
-				(*it_e)->active = false;
+				(*it)->position.x = mouse_x - (*it)->section.w / 2;
+				(*it)->position.y = mouse_y - (*it)->section.h / 2;
+
+				App->scene_gui->gui_config_node.child(ElementNametoString((*it)->name)).child("position").attribute("x").set_value((*it)->position.x);
+				App->scene_gui->gui_config_node.child(ElementNametoString((*it)->name)).child("position").attribute("y").set_value((*it)->position.y);
+			}
+		}
+	}
+	for (std::list<Button*>::iterator it = button_list.begin(); it != button_list.end(); it++)
+	{
+		if ((*it)->active == true)
+		{
+			if (mouse_x >= (*it)->position.x && 
+				mouse_y >= (*it)->position.y && 
+				mouse_x <= ((*it)->position.x + (*it)->section.w) &&
+				mouse_y <= ((*it)->position.y + (*it)->section.h))
+			{
+				if (App->input->GetMouseButtonDown(1) == KEY_DOWN)
+				{
+					(*it)->callback->ActionController((*it)->name);
+				}
+
 
 			}
 			//Blit Texture
-			SDL_Rect iterator_rect = (*it_e)->section;
-			App->render->Blit((*it_e)->texture, (*it_e)->position.x, (*it_e)->position.y, &iterator_rect);
-			(*it_e)->callback->ActionController();
+			SDL_Rect iterator_rect = (*it)->section;
+			App->render->Blit((*it)->texture, (*it)->position.x, (*it)->position.y, &iterator_rect);
 
 			//Blit Text
-			SDL_Texture* text = App->font->Print((*it_e)->string.c_str(), { 255,255,255,255 }, App->gui->font24);
+			SDL_Texture* text = App->font->Print((*it)->string.c_str(), { 255,255,255,255 }, App->gui->font24);
 			int text_w;
 			SDL_QueryTexture(text, NULL, NULL, &text_w, NULL);
-			App->render->Blit(text, (*it_e)->position.x + (*it_e)->section.w/2 - text_w/2, (*it_e)->position.y + (*it_e)->section.h/4);
+			App->render->Blit(text, (*it)->position.x + (*it)->section.w/2 - text_w/2, (*it)->position.y + (*it)->section.h/4);
 		}
 	}
 
@@ -121,7 +143,6 @@ void j1Gui::BlitElements()
 		{
 			SDL_Rect iterator_rect = (*it_e)->section;
 			App->render->Blit((*it_e)->texture, (*it_e)->position.x, (*it_e)->position.y, &iterator_rect);
-			(*it_e)->callback->ActionController();
 		}
 	}
 	
@@ -129,10 +150,20 @@ void j1Gui::BlitElements()
 
 // class Gui ---------------------------------------------------
 
-Image * j1Gui::AddImage(ElementName name, int default_x, int default_y, SDL_Rect rect,bool active, j1Module* callback, SDL_Texture* texture)
+Image * j1Gui::AddImage(ElementName name, int spawn_x, int spawn_y, SDL_Rect rect,bool active, j1Module* callback, SDL_Texture* texture)
 {
-	;
-	if (App->scene_gui->gui_config_node.child(ElementNametoString(name)) == false)
+	if (App->scene_gui->gui_config_node.child(ElementNametoString(name))) //if the node exists
+	{
+		
+		rect.x = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("x").as_int(rect.x);
+		rect.y = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("y").as_int(rect.y);
+		rect.h = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("h").as_int(rect.h);
+		rect.w = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("w").as_int(rect.w);
+
+		spawn_x = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("position").attribute("x").as_int(spawn_x);
+		spawn_y = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("position").attribute("y").as_int(spawn_y);
+	}
+	else //if not
 	{
 		App->scene_gui->gui_config_node.append_child(ElementNametoString(name)).append_child("rect");
 		pugi::xml_node rect_node = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect");
@@ -143,22 +174,11 @@ Image * j1Gui::AddImage(ElementName name, int default_x, int default_y, SDL_Rect
 
 		App->scene_gui->gui_config_node.child(ElementNametoString(name)).append_child("position");
 		pugi::xml_node position_node = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("position");
-		position_node.append_attribute("x") = default_x;
-		position_node.append_attribute("y") = default_y;
-	}
-	else
-	{
-		rect.x = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("x").as_int(rect.x);
-		rect.y = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("y").as_int(rect.y);
-		rect.h = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("h").as_int(rect.h);
-		rect.w = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("w").as_int(rect.w);
-
-		default_x = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("position").attribute("x").as_int(default_x);
-		default_y = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("position").attribute("y").as_int(default_y);
-		
+		position_node.append_attribute("x") = spawn_x;
+		position_node.append_attribute("y") = spawn_y;
 	}
 
-	Image* ret = new Image(name, default_x, default_y, rect, active, callback, texture);
+	Image* ret = new Image(name, spawn_x, spawn_y, rect, active, callback, texture);
 	image_list.push_back(ret);
 	element_list.push_back(ret);
 
@@ -171,7 +191,17 @@ Image * j1Gui::AddImage(ElementName name, int default_x, int default_y, SDL_Rect
 Button * j1Gui::AddButton(ElementName name, int default_x, int default_y, SDL_Rect rect,bool active, const char* display_string, j1Module* callback,  SDL_Texture* texture)
 {
 
-	if (App->scene_gui->gui_config_node.child(ElementNametoString(name)) == false)
+	if (App->scene_gui->gui_config_node.child(ElementNametoString(name)))
+	{
+		rect.x = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("x").as_int(rect.x);
+		rect.y = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("y").as_int(rect.y);
+		rect.h = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("h").as_int(rect.h);
+		rect.w = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("w").as_int(rect.w);
+
+		default_x = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("position").attribute("x").as_int(default_x);
+		default_y = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("position").attribute("y").as_int(default_y);
+	}
+	else
 	{
 		App->scene_gui->gui_config_node.append_child(ElementNametoString(name)).append_child("rect");
 		pugi::xml_node rect_node = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect");
@@ -184,16 +214,6 @@ Button * j1Gui::AddButton(ElementName name, int default_x, int default_y, SDL_Re
 		pugi::xml_node position_node = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("position");
 		position_node.append_attribute("x") = default_x;
 		position_node.append_attribute("y") = default_y;
-	}
-	else
-	{
-		rect.x = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("x").as_int(rect.x);
-		rect.y = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("y").as_int(rect.y);
-		rect.h = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("h").as_int(rect.h);
-		rect.w = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("w").as_int(rect.w);
-
-		default_x = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("position").attribute("x").as_int(default_x);
-		default_y = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("position").attribute("y").as_int(default_y);
 
 	}
 

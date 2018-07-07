@@ -36,7 +36,7 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	void ActionController();
+	bool ActionController(ElementName name);
 
 private:
 	SDL_Texture*			debug_tex;

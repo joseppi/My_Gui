@@ -37,18 +37,12 @@ bool j1SceneGui::Start()
 {
 	result = gui_config_file.load_file("gui_config.xml");
 	gui_config_node = gui_config_file.first_child();
-	
-	int posx = gui_config_node.child("StartGame").child("position").attribute("x").as_int(0);
-	int posy = gui_config_node.child("StartGame").child("position").attribute("y").as_int(0);
-	
+		
 	Button* StartGame;
-	StartGame = App->gui->AddButton(STARTGAME, 1100, 500, { 0,0,192,56 },true,"Start Game");
-
-	int posx1 = gui_config_node.child("Options").child("position").attribute("x").as_int(0);
-	int posy1 = gui_config_node.child("Options").child("position").attribute("y").as_int(0);
+	StartGame = App->gui->AddButton(STARTGAME, 200, 500, { 0,0,192,56 },true,"Start Game");
 
 	Button* Options;
-	Options = App->gui->AddButton(OPTIONS, 400, 700, { 0,0,192,56 }, true, "Options");
+	Options = App->gui->AddButton(OPTIONS, 200, 700, { 0,0,192,56 }, true, "Options");
 
 	Image* Atlas;
 	Atlas = App->gui->AddImage(ATLAS, 0, 0, { 0,0,1000,1000 }, true, this);
@@ -74,15 +68,19 @@ bool j1SceneGui::Update(float dt)
 
 
 	mouse_x_display.create("%i", mouse_x);
-	SDL_Texture* img = App->font->Print(mouse_x_display.GetString(), { 255,255,255,255 }, App->gui->font64);
-	App->render->Blit(img, 500,500);
+	SDL_Texture* img = nullptr;
 	SDL_DestroyTexture(img);
+	img = App->font->Print(mouse_x_display.GetString(), { 255,255,255,255 }, App->gui->font64);
+	App->render->Blit(img, 500,500);
+
 
 
 	mouse_y_display.create("%i", mouse_y);
-	SDL_Texture* img2 = App->font->Print(mouse_y_display.GetString(), { 255,255,255,255 }, App->gui->font64);
-	App->render->Blit(img, 700, 500);
+	SDL_Texture* img2 = nullptr;
 	SDL_DestroyTexture(img);
+	img2 = App->font->Print(mouse_y_display.GetString(), { 255,255,255,255 }, App->gui->font64);
+	App->render->Blit(img, 700, 500);
+
 
 
 
@@ -96,27 +94,42 @@ bool j1SceneGui::PostUpdate()
 
 bool j1SceneGui::CleanUp()
 {
+	/*
 	App->gui->element_list.begin();
 
 	for (std::list<Gui_Elements*>::iterator it_e = App->gui->element_list.begin(); it_e != App->gui->element_list.end(); it_e++)
 	{
-		if ((*it_e)->name = STARTGAME)
-		{
-			gui_config_node.child("StartGame").child("rect").attribute("x").set_value((*it_e)->section.x);
-			gui_config_node.child("StartGame").child("rect").attribute("y").set_value((*it_e)->section.y);
-			gui_config_node.child("StartGame").child("rect").attribute("h").set_value((*it_e)->section.h);
-			gui_config_node.child("StartGame").child("rect").attribute("w").set_value((*it_e)->section.w);
+	if ((*it_e)->name = STARTGAME)
+	{
+	gui_config_node.child("StartGame").child("rect").attribute("x").set_value((*it_e)->section.x);
+	gui_config_node.child("StartGame").child("rect").attribute("y").set_value((*it_e)->section.y);
+	gui_config_node.child("StartGame").child("rect").attribute("h").set_value((*it_e)->section.h);
+	gui_config_node.child("StartGame").child("rect").attribute("w").set_value((*it_e)->section.w);
 
-			gui_config_node.child("StartGame").child("position").attribute("x").set_value((*it_e)->position.x);
-			gui_config_node.child("StartGame").child("position").attribute("y").set_value((*it_e)->position.y);
+	gui_config_node.child("StartGame").child("position").attribute("x").set_value((*it_e)->position.x);
+	gui_config_node.child("StartGame").child("position").attribute("y").set_value((*it_e)->position.y);
 
-		}
 	}
+	}
+	*/
+
 	return true;
 }
 
-void j1SceneGui::ActionController()
+bool j1SceneGui::ActionController(ElementName name)
 {
-	
-	LOG("hola");
+	switch (name)
+	{
+		case OPTIONS:
+		{
+
+		}
+		case STARTGAME:
+		{
+
+		}
+
+	}
+		
+	return true;
 }

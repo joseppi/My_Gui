@@ -2,14 +2,13 @@
 <config>
 	<STARTGAME>
 		<rect x="0" y="0" h="56" w="192" />
-		<position x="1600" y="500" />
+		<position x="825" y="894" />
 	</STARTGAME>
 	<OPTIONS>
 		<rect x="0" y="0" h="56" w="192" />
-		<position x="1000" y="700" />
+		<position x="826" y="817" />
 	</OPTIONS>
 	<ATLAS>
 		<rect x="0" y="0" h="1000" w="1000" />
-		<position x="0" y="0" />
 	</ATLAS>
 </config>

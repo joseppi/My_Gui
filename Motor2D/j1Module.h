@@ -10,7 +10,7 @@
 #include "PugiXml\src\pugixml.hpp"
 
 class j1App;
-
+enum ElementName;
 class j1Module
 {
 public:
@@ -72,9 +72,9 @@ public:
 		return true;
 	}
 
-	virtual void ActionController()
+	virtual bool ActionController(ElementName name)
 	{
-		
+		return true;
 	}
 public:
 
