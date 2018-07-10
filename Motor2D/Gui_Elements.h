@@ -16,7 +16,6 @@ public:
 		section(section),
 		callback(callback),
 		active(active)
-
 	{}
 	~Gui_Elements() {};
 
@@ -27,6 +26,7 @@ public:
 	ElementName name;
 	j1Module* callback;
 	bool active;
+	bool isMoving = false;
 
 
 

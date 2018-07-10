@@ -67,19 +67,25 @@ bool j1SceneGui::Update(float dt)
 	App->input->GetMousePosition(mouse_x, mouse_y);
 
 
-	mouse_x_display.create("%i", mouse_x);
-	SDL_Texture* img = nullptr;
-	SDL_DestroyTexture(img);
-	img = App->font->Print(mouse_x_display.GetString(), { 255,255,255,255 }, App->gui->font64);
-	App->render->Blit(img, 500,500);
+	if (blittimer.Read() > 1)
+	{
+		mouse_x_display.create("%i", mouse_x);
+		SDL_Texture* img = nullptr;
+
+		img = App->font->Print(mouse_x_display.GetString(), { 255,255,255,255 }, App->gui->font64);
+		App->render->Blit(img, 500, 500);
+		SDL_DestroyTexture(img);
 
 
+		mouse_y_display.create("%i", mouse_y);
+		SDL_Texture* img2 = nullptr;
 
-	mouse_y_display.create("%i", mouse_y);
-	SDL_Texture* img2 = nullptr;
-	SDL_DestroyTexture(img);
-	img2 = App->font->Print(mouse_y_display.GetString(), { 255,255,255,255 }, App->gui->font64);
-	App->render->Blit(img, 700, 500);
+		img2 = App->font->Print(mouse_y_display.GetString(), { 255,255,255,255 }, App->gui->font64);
+		App->render->Blit(img2, 700, 500, 0);
+		blittimer.Start();
+		SDL_DestroyTexture(img2);
+	}
+
 
 
 

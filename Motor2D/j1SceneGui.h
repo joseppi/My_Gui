@@ -2,6 +2,7 @@
 #define __j1SCENEGUI_H__
 
 #include "j1Module.h"
+#include "j1Timer.h"
 
 struct SDL_Texture;
 class GuiImage;
@@ -42,6 +43,7 @@ private:
 	SDL_Texture*			debug_tex;
 	GuiImage*				banner;
 	GuiText*				text;
+	j1Timer					blittimer;
 
 private:
 	_TTF_Font*				Font;

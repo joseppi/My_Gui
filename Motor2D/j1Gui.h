@@ -6,6 +6,7 @@
 #include "SDL_ttf\include\SDL_ttf.h"
 #include "PugiXml\src\pugixml.hpp"
 #include "j1SceneGui.h"
+#include "p2Point.h"
 
 
 #define CURSOR_WIDTH 2
@@ -61,6 +62,7 @@ public:
 	Button* AddButton(ElementName name, int x, int y, SDL_Rect section, bool active, const char* display_string = NULL, j1Module* callback = nullptr,  SDL_Texture * texture = nullptr);
 	
 	const char* ElementNametoString(ElementName name);
+	iPoint WriteReadXML(ElementName name, int spawn_x, int spawn_y, SDL_Rect rect);
 	
 
 private:
@@ -80,9 +82,10 @@ public:
 	_TTF_Font*					font64;
 
 	Button*						buttons_class;
-	
-	int total_motion_x = 0;
-	int total_motion_y = 0;
+
+	bool isAlign = false;
+	bool isMoving = false;
+
 
 };
 
