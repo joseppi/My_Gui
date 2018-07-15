@@ -241,14 +241,10 @@ iPoint j1Gui::WriteReadXML(ElementName name, int spawn_x, int spawn_y, SDL_Rect 
 	iPoint ret;
 	if (App->scene_gui->gui_config_node.child(ElementNametoString(name))) //if the node exists
 	{
-
 		rect.x = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("x").as_int(rect.x);
 		rect.y = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("y").as_int(rect.y);
 		rect.h = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("h").as_int(rect.h);
 		rect.w = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect").attribute("w").as_int(rect.w);
-
-		ret.x = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("position").attribute("x").as_int(spawn_x);
-		ret.y = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("position").attribute("y").as_int(spawn_y);
 	}
 	else //if not
 	{
@@ -260,10 +256,13 @@ iPoint j1Gui::WriteReadXML(ElementName name, int spawn_x, int spawn_y, SDL_Rect 
 		rect_node.append_attribute("w") = rect.w;
 
 		App->scene_gui->gui_config_node.child(ElementNametoString(name)).append_child("position");
-		
 		App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("position").append_attribute("x") = spawn_x;
 		App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("position").append_attribute("y") = spawn_y;
+
 		App->scene_gui->gui_config_file.save_file("gui_config.xml");
 	}
+	ret.x = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("position").attribute("x").as_int(spawn_x);
+	ret.y = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("position").attribute("y").as_int(spawn_y);
+
 	return ret;
 }
