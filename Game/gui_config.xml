@@ -1,15 +1,12 @@
 <?xml version="1.0"?>
 <config>
-	<ATLAS>
-		<rect x="0" y="0" h="1000" w="1000" />
-		<position x="1086" y="39" />
-	</ATLAS>
 	<STARTGAME>
-		<rect x="0" y="0" h="56" w="192" />
-		<position x="227" y="407" />
+		<position x="842" y="691" />
 	</STARTGAME>
 	<OPTIONS>
-		<rect x="0" y="0" h="56" w="192" />
-		<position x="200" y="700" />
+		<position x="846" y="798" />
 	</OPTIONS>
+	<ATLAS>
+		<position x="1246" y="-10" />
+	</ATLAS>
 </config>

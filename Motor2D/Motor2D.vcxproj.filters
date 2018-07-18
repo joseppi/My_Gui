@@ -191,4 +191,9 @@
       <Filter>Desenvolupament  ========\Modules\Files</Filter>
     </Xml>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Game\maps\iso.tmx">
+      <Filter>Desenvolupament  ========\Modules\Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

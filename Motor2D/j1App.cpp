@@ -448,6 +448,8 @@ bool j1App::SavegameNow() const
 	else
 		LOG("Save process halted from an error in module %s", (item != NULL) ? item->data->name.GetString() : "unknown");
 
+	data.save_file("save_game.xml");
+
 	data.reset();
 	want_to_save = false;
 	return ret;

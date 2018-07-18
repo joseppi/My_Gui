@@ -4,6 +4,7 @@
 #include "j1Window.h"
 #include "j1Render.h"
 
+
 #define VSYNC true
 
 j1Render::j1Render() : j1Module()
@@ -98,7 +99,7 @@ bool j1Render::Save(pugi::xml_node& data) const
 
 	cam.append_attribute("x") = camera.x;
 	cam.append_attribute("y") = camera.y;
-
+	
 	return true;
 }
 

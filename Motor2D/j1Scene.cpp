@@ -34,6 +34,7 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
+	
 	if(App->map->Load("iso_walk.tmx") == true)
 	{
 		int w, h;
@@ -43,13 +44,8 @@ bool j1Scene::Start()
 
 		RELEASE_ARRAY(data);
 	}
-
 	debug_tex = App->tex->Load("maps/path2.png");
-
-	// TODO 3: Create the banner (rect {485, 829, 328, 103}) and the text "Hello World"
-	Font = App->font->Load("fonts/ninja_naruto/njnaruto.ttf");
-
-	display_floating_score.create("%i", 10);
+	
 
 
 	return true;
@@ -59,28 +55,28 @@ bool j1Scene::Start()
 bool j1Scene::PreUpdate()
 {
 
-	//// debug pathfing ------------------
-	//static iPoint origin;
-	//static bool origin_selected = false;
+	// debug pathfing ------------------
+	static iPoint origin;
+	static bool origin_selected = false;
 
-	//int x, y;
-	//App->input->GetMousePosition(x, y);
-	//iPoint p = App->render->ScreenToWorld(x, y);
-	//p = App->map->WorldToMap(p.x, p.y);
+	int x, y;
+	App->input->GetMousePosition(x, y);
+	iPoint p = App->render->ScreenToWorld(x, y);
+	p = App->map->WorldToMap(p.x, p.y);
 
-	//if(App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
-	//{
-	//	if(origin_selected == true)
-	//	{
-	//		App->pathfinding->CreatePath(origin, p);
-	//		origin_selected = false;
-	//	}
-	//	else
-	//	{
-	//		origin = p;
-	//		origin_selected = true;
-	//	}
-	//}
+	if(App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		if(origin_selected == true)
+		{
+			App->pathfinding->CreatePath(origin, p);
+			origin_selected = false;
+		}
+		else
+		{
+			origin = p;
+			origin_selected = true;
+		}
+	}
 
 
 	return true;
@@ -90,8 +86,6 @@ bool j1Scene::PreUpdate()
 bool j1Scene::Update(float dt)
 {
 
-	
-	// -------
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
 
@@ -110,7 +104,7 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x -= floor(2000.0f * dt);
 
-	//App->map->Draw();
+	App->map->Draw();
 
 	int x, y;
 	App->input->GetMousePosition(x, y);
@@ -125,41 +119,23 @@ bool j1Scene::Update(float dt)
 	App->win->SetTitle(title.GetString());
 
 	// Debug pathfinding ------------------------------
-	//int x, y;
-	//App->input->GetMousePosition(x, y);
-	//iPoint p = App->render->ScreenToWorld(x, y);
-	//p = App->map->WorldToMap(p.x, p.y);
-	//p = App->map->MapToWorld(p.x, p.y);
+	int x2 = 0;
+	int y2 = 0;
+	App->input->GetMousePosition(x2, y2);
+	iPoint p = App->render->ScreenToWorld(x2, y2);
+	p = App->map->WorldToMap(p.x, p.y);
+	p = App->map->MapToWorld(p.x, p.y);
 
-	//App->render->Blit(debug_tex, p.x, p.y);
+	App->render->Blit(debug_tex, p.x, p.y);
 
-	//const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
 
-	//for(uint i = 0; i < path->Count(); ++i)
-	//{
-	//	iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-	//	App->render->Blit(debug_tex, pos.x, pos.y);
-	//}
-
-	//Logo ---------------------
-	//App->render->Blit(App->gui->logo, 200, 100, &App->gui->rec_logo);
-
-	// Gui ----------------------
-	//App->gui->Print(windows, 0, 0, &home_window);
-
-	
-	
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+	for(uint i = 0; i < path->Count(); ++i)
 	{
-
-	}
-	if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN)
-	{
-
+		iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+		App->render->Blit(debug_tex, pos.x, pos.y);
 	}
 
-	//posar que faci alguna cosa quant pases el ratolí per sobre
-	//posar interfaç mòvil
 	return true;
 }
 

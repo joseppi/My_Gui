@@ -44,8 +44,8 @@ bool j1SceneGui::Start()
 	Button* Options;
 	Options = App->gui->AddButton(OPTIONS, 200, 700, { 0,0,192,56 }, true, "Options");
 
-	Image* Atlas;
-	Atlas = App->gui->AddImage(ATLAS, 0, 0, { 0,0,1000,1000 }, true, this);
+	//Image* Atlas;
+	//Atlas = App->gui->AddImage(ATLAS, 0, 0, { 0,0,1000,1000 }, true, this);
 	
 	App->scene_gui->gui_config_file.save_file("gui_config.xml");
 	return true;

@@ -248,14 +248,7 @@ iPoint j1Gui::WriteReadXML(ElementName name, int spawn_x, int spawn_y, SDL_Rect 
 	}
 	else //if not
 	{
-		App->scene_gui->gui_config_node.append_child(ElementNametoString(name)).append_child("rect");
-		pugi::xml_node rect_node = App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("rect");
-		rect_node.append_attribute("x") = rect.x;
-		rect_node.append_attribute("y") = rect.y;
-		rect_node.append_attribute("h") = rect.h;
-		rect_node.append_attribute("w") = rect.w;
-
-		App->scene_gui->gui_config_node.child(ElementNametoString(name)).append_child("position");
+		App->scene_gui->gui_config_node.append_child(ElementNametoString(name)).append_child("position");
 		App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("position").append_attribute("x") = spawn_x;
 		App->scene_gui->gui_config_node.child(ElementNametoString(name)).child("position").append_attribute("y") = spawn_y;
 
