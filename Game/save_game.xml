@@ -1,4 +1,16 @@
 <?xml version="1.0"?>
 <game_state>
-
+	<input />
+	<window />
+	<textures />
+	<audio />
+	<map />
+	<pathfinding />
+	<fonts />
+	<gui />
+	<scenegui />
+	<scene />
+	<renderer>
+		<camera x="-1262" y="-1500" />
+	</renderer>
 </game_state>

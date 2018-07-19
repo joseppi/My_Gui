@@ -28,6 +28,11 @@ bool j1Render::Awake(pugi::xml_node& config)
 	// load flags
 	Uint32 flags = SDL_RENDERER_ACCELERATED;
 
+	pugi::xml_document data;
+
+	data.load_file("save_game.xml");
+	pugi::xml_parse_result result = data.load_file("save_game.xml");
+
 	if(config.child("vsync").attribute("value").as_bool(true) == true)
 	{
 		flags |= SDL_RENDERER_PRESENTVSYNC;
@@ -45,8 +50,8 @@ bool j1Render::Awake(pugi::xml_node& config)
 	{
 		camera.w = App->win->screen_surface->w;
 		camera.h = App->win->screen_surface->h;
-		camera.x = 0;
-		camera.y = 0;
+		camera.x = data.child("game_state").child("renderer").child("camera").attribute("x").as_int();
+		camera.y = data.child("game_state").child("renderer").child("camera").attribute("y").as_int();
 	}
 
 	return ret;
@@ -95,11 +100,12 @@ bool j1Render::Load(pugi::xml_node& data)
 // Save Game State
 bool j1Render::Save(pugi::xml_node& data) const
 {
+
 	pugi::xml_node cam = data.append_child("camera");
 
 	cam.append_attribute("x") = camera.x;
 	cam.append_attribute("y") = camera.y;
-	
+
 	return true;
 }
 

@@ -358,7 +358,7 @@ void j1App::LoadGame(const char* file)
 	// we should be checking if that file actually exist
 	// from the "GetSaveGames" list
 	want_to_load = true;
-	//load_game.create("%s%s", fs->GetSaveDirectory(), file);
+	
 }
 
 // ---------------------------------------
@@ -385,7 +385,7 @@ bool j1App::LoadGameNow()
 	pugi::xml_node root;
 
 	data.load_file("save_game.xml");
-	pugi::xml_parse_result result = data.load_file(load_game.GetString());
+	pugi::xml_parse_result result = data.load_file("save_game.xml");
 
 	if(result != NULL)
 	{
@@ -426,6 +426,7 @@ bool j1App::SavegameNow() const
 	pugi::xml_node root;
 	
 	data.load_file("save_game.xml");
+	data.reset();
 	root = data.append_child("game_state");
 
 	p2List_item<j1Module*>* item = modules.start;
@@ -449,8 +450,6 @@ bool j1App::SavegameNow() const
 		LOG("Save process halted from an error in module %s", (item != NULL) ? item->data->name.GetString() : "unknown");
 
 	data.save_file("save_game.xml");
-
-	data.reset();
 	want_to_save = false;
 	return ret;
 }
